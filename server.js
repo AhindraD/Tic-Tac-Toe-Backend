@@ -13,6 +13,12 @@ const httpServer = app.listen(process.env.PORT || 8000, () => {
 const io = new Server(httpServer);
 
 let allRooms = {};
+/*
+roomDemoID:{
+    owner: "abc",
+    joiner: "xyz",
+},
+*/
 
 io.on("connection", (socket) => {
     console.log("Client Connected: ", socket.id);
@@ -54,12 +60,6 @@ io.on("connection", (socket) => {
         }
     })
 
-
-    //CLEAR CANVAS SYNC
-    socket.on("clear", (data) => {
-        socket.broadcast.emit("new-clear", data);
-        allInputs = [].slice();
-    })
 
 
     socket.on("disconnect", () => {

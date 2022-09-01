@@ -6,28 +6,29 @@ const app = express();
 app.use(express.static("public"));
 app.use(cors());
 
-const httpServer = app.listen(process.env.PORT || 8000,()=>{
-    const port=httpServer.address().port;
-    //console.log(`Server running on ${port}`);
+const httpServer = app.listen(process.env.PORT || 8000, () => {
+    const port = httpServer.address().port;
+    console.log(`Server running on ${port}`);
 });
 const io = new Server(httpServer);
 
-let allInputs = [];
+//let allInputs = [];
 
 io.on("connection", (socket) => {
     console.log("Client Connected: ", socket.id);
-    socket.emit("history", allInputs);
+    //socket.emit("history", allInputs);
 
-
-    //DISPLAY MSG SYNC
-    socket.on("chat-message", (data) => {
-        console.log(`Message from ${socket.id}: ${data}`);
-        //to deliver to everyone EXcept Sender
-        socket.broadcast.emit("new-message", `Message from ${socket.id}: ${data}`);
-
-        //too all including sender
-        //io.emit("new-message", `Message from ${socket.id}: ${data}`);
-    });
+    /*
+        //DISPLAY MSG SYNC
+        socket.on("chat-message", (data) => {
+            console.log(`Message from ${socket.id}: ${data}`);
+            //to deliver to everyone EXcept Sender
+            socket.broadcast.emit("new-message", `Message from ${socket.id}: ${data}`);
+    
+            //too all including sender
+            //io.emit("new-message", `Message from ${socket.id}: ${data}`);
+        });
+        */
 
 
     //DRAW SYNC

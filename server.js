@@ -12,11 +12,11 @@ const httpServer = app.listen(process.env.PORT || 8000, () => {
 });
 const io = new Server(httpServer);
 
-//let allInputs = [];
+let allRooms = {};
 
 io.on("connection", (socket) => {
     console.log("Client Connected: ", socket.id);
-    //socket.emit("history", allInputs);
+    socket.emit("ID", socket.id);
 
     /*
         //DISPLAY MSG SYNC
@@ -31,13 +31,27 @@ io.on("connection", (socket) => {
         */
 
 
-    //DRAW SYNC
-    socket.on("mouse-cords", (data) => {
-        //console.log([data.x, data.y, data.colors]);
-        socket.broadcast.emit("new-cords", data);
+    //CREATE ROOM
+    socket.on("create-room", (data) => {
+        allRooms[data.roomID] = {
+            owner: data.owner,
+        };
     })
-    socket.on("store", (data) => {
-        allInputs.push(data);
+    //JOIN ROOM
+    socket.on("join-room", (data) => {
+        if (Object.keys(allRooms).includes(data.roomID)) {
+            if (allRooms[data.roomID].joiner == undefined) {
+                allRooms[data.roomID].joiner = data.joiner;
+                socket.emit("join-access", { valid: true, resp: "Play on!" });
+            }
+            else {
+                console.log("Room Full!");
+                socket.emit("join-access", { valid: false, resp: "Room Full!" });
+            }
+        } else {
+            console.log("Invalid Room!");
+            socket.emit("join-access", { valid: false, resp: "Invalid Room!" });
+        }
     })
 
 

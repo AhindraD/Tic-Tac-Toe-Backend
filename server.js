@@ -42,13 +42,18 @@ io.on("connection", (socket) => {
         allRooms[data.roomID] = {
             owner: data.owner,
         };
+        socket.join(data.roomID);
     })
     //JOIN ROOM
     socket.on("join-room", (data) => {
-        if (Object.keys(allRooms).includes(data.roomID)) {
-            if (allRooms[data.roomID].joiner == undefined) {
+        if (allRooms[data.roomID] !== undefined) {
+            if (allRooms[data.roomID].joiner === undefined) {
                 allRooms[data.roomID].joiner = data.joiner;
+                socket.join(data.roomID);
+
                 socket.emit("join-access", { valid: true, resp: "Play on!" });
+
+                socket.to(data.roomID).emit("oponent", allRooms[data.roomID]);
             }
             else {
                 console.log("Room Full!");

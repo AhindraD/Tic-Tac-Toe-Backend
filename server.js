@@ -51,9 +51,12 @@ io.on("connection", (socket) => {
                 allRooms[data.roomID].joiner = data.joiner;
                 socket.join(data.roomID);
 
-                socket.emit("join-access", { valid: true, resp: "Play on!" });
+                socket.emit("join-access", { valid: true, player: "O", resp: "Play on!" });
 
-                socket.to(data.roomID).emit("oponent", allRooms[data.roomID]);
+                setTimeout(() => {
+                    io.to(data.roomID).emit("oponent", allRooms[data.roomID]);
+                }, 100);//delaying to gove time to set the socket on, inside useEffect (frontend) on page load
+
             }
             else {
                 console.log("Room Full!");
@@ -65,6 +68,19 @@ io.on("connection", (socket) => {
         }
     })
 
+
+    //PLANTING MOVES
+    /*
+    let movesObj = {
+                    arrCopy: JSON.stringify(arrCopy),
+                    ifXturn,
+                    currStatus,
+                    room
+                }
+    */
+    socket.on("moves", (data) => {
+        io.to(data.room).emit("new-moves", data);
+    })
 
 
     socket.on("disconnect", () => {

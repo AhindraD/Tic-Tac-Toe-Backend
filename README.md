@@ -1,4 +1,8 @@
 # Multiplayer TicTacToe
+## Deployed here: https://tic-tac-toe-servr.herokuapp.com/
+
+## Frontend here: https://tic-tac-toe-multiplay.netlify.app/
+## Frontend Repo: https://github.com/AhindraD/Tic-Tac-Toe-Frontend
 
 Make a multiplayer TicTacToe which can be played over internet (using websockets).
 

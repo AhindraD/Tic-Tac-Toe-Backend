@@ -1,5 +1,5 @@
 # Multiplayer TicTacToe
-## Deployed here: https://tic-tac-toe-servr.herokuapp.com/
+## Deployed here: https://tictactoe-multiweb.onrender.com
 
 ## Frontend here: https://tic-tac-toe-multiplay.netlify.app/
 ## Frontend Repo: https://github.com/AhindraD/Tic-Tac-Toe-Frontend
